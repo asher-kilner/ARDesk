@@ -8,34 +8,17 @@ public class placementControler : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject gameObjectToCreate;
-
-    [SerializeField]
-    private PlacementObject[] placementObjects;
-
-    [SerializeField]
-    private Color activecolour = Color.red;
-
-    [SerializeField]
-    private Color inactivecolour = Color.grey;
-
-    [SerializeField]
-    private Camera arcamera;
-
-    private Vector2 touchPosition = default;
-
-    private ARRaycastManager arRaycaseManager;
-
-    private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    public GameObject placedPrefab
+    private GameObject placedPrefab;
+           
+    public GameObject PlacedPrefab
     {
         get
         {
-            return gameObjectToCreate;
+            return placedPrefab;
         }
         set
         {
-            gameObjectToCreate = value;
+            placedPrefab = value;
         }
     }
 
@@ -47,30 +30,40 @@ public class placementControler : MonoBehaviour
 
     }
 
-    bool TryGetTouchPosition(out Vector2 touchPosition)
+    private bool TryGetTouchPos(out Vector2 touchPos)
     {
         if(Input.touchCount > 0)
         {
-            touchPosition = Input.GetTouch(0).position;
+            touchPos = Input.GetTouch(0).position;
             return true;
         }
-        touchPosition = default;
+        touchPos = default;
         return false;
     }
 
 
 
+    private void Start()
+    {
+
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        if (!TryGetTouchPosition(out Vector2 touchPosition))
-            return;
-        if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+        if(!TryGetTouchPos(out Vector2 touchPos))
         {
-            var hitPose = hits[0].pose;
-            Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
+            return;
+        }
+        if (arRaycastManager.Raycast(touchPos,hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+        {
+            var hitPos = hits[0].pose;
+
+            Instantiate(placedPrefab, hitPos.position, hitPos.rotation);
         }
     }
 
+    static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     
 }
