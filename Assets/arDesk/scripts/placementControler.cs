@@ -8,6 +8,7 @@ using UnityEngine.XR.ARFoundation;
 public class placementControler : MonoBehaviour
 {
 
+<<<<<<< HEAD
     private GameObject placedPrefab;
 
     [SerializeField]
@@ -22,6 +23,39 @@ public class placementControler : MonoBehaviour
     [SerializeField]
     private Button tree;
 
+=======
+    [SerializeField]
+    private GameObject gameObjectToCreate;
+
+    [SerializeField]
+    private PlacementObject[] placementObjects;
+
+    [SerializeField]
+    private Color activecolour = Color.red;
+
+    [SerializeField]
+    private Color inactivecolour = Color.grey;
+
+    [SerializeField]
+    private Camera arcamera;
+
+    private Vector2 touchPosition = default;
+
+    private ARRaycastManager arRaycaseManager;
+
+    private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    public GameObject placedPrefab
+    {
+        get
+        {
+            return gameObjectToCreate;
+        }
+        set
+        {
+            gameObjectToCreate = value;
+        }
+    }
+>>>>>>> parent of 00cee8f... basic surface detection and object place
 
     private ARRaycastManager arRaycastManager;
 
@@ -41,16 +75,17 @@ public class placementControler : MonoBehaviour
         placedPrefab = Resources.Load<GameObject>($"Prefabs/{prefabName}");
     }
 
-    private bool TryGetTouchPos(out Vector2 touchPos)
+    bool TryGetTouchPosition(out Vector2 touchPosition)
     {
         if(Input.touchCount > 0)
         {
-            touchPos = Input.GetTouch(0).position;
+            touchPosition = Input.GetTouch(0).position;
             return true;
         }
-        touchPos = default;
+        touchPosition = default;
         return false;
     }
+<<<<<<< HEAD
     private void Start()
     {
 
@@ -106,9 +141,22 @@ public class placementControler : MonoBehaviour
                 calledLong = false;
                 newTouch = false;
             }
+=======
+
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!TryGetTouchPosition(out Vector2 touchPosition))
+            return;
+        if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+        {
+            var hitPose = hits[0].pose;
+            Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
+>>>>>>> parent of 00cee8f... basic surface detection and object place
         }
     }
 
-    static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     
 }
