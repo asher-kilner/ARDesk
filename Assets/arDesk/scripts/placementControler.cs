@@ -29,28 +29,18 @@ public class placementControler : MonoBehaviour
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
     public GameObject placedPrefab
     {
-        get
-        {
-            return gameObjectToCreate;
-        }
+        get => gameObjectToCreate;
         set
         {
             gameObjectToCreate = value;
         }
     }
->>>>>>> parent of 00cee8f... basic surface detection and object place
 
     private ARRaycastManager arRaycastManager;
 
     void Awake()
     {
         arRaycastManager = GetComponent<ARRaycastManager>();
-
-        ChangePrefab("square");
-
-        square.onClick.AddListener(() => ChangePrefab("Tree"));
-        circle.onClick.AddListener(() => ChangePrefab("Square"));
-        tree.onClick.AddListener(() => ChangePrefab("Sphere"));
     }
 
     void ChangePrefab(string prefabName)
@@ -68,8 +58,6 @@ public class placementControler : MonoBehaviour
         touchPosition = default;
         return false;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
     private void Start()
     {
 
@@ -106,14 +94,14 @@ public class placementControler : MonoBehaviour
                         //code to be called once after long press
                         calledLong = true;
 
-                        if (!TryGetTouchPos(out Vector2 touchPos))
+                        if (!TryGetTouchPosition(out Vector2 touchPos))
                         {
                             return;
                         }
                         if (arRaycastManager.Raycast(touchPos, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
                         {
                             var hitPos = hits[0].pose;
-                            Instantiate(optionsmenu, hitPos.position, hitPos.rotation); 
+                            Instantiate(placedPrefab, hitPos.position, hitPos.rotation);
 
                         }
                     }
@@ -125,32 +113,7 @@ public class placementControler : MonoBehaviour
                 calledLong = false;
                 newTouch = false;
             }
+        }
+    }
 
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!TryGetTouchPosition(out Vector2 touchPosition))
-            return;
-                if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
-                {
-                    var hitPose = hits[0].pose;
-                    Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
-
-
-
-                    // Update is called once per frame
-                    void Update()
-                    {
-                        if (!TryGetTouchPosition(out Vector2 touchPosition))
-                            return;
-                        if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
-                        {
-                            var hitPose = hits[0].pose;
-                            Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
-                        }
-                    }
-
-                }   
 }
