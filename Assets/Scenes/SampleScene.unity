@@ -349,7 +349,6 @@ GameObject:
   - component: {fileID: 819255030}
   - component: {fileID: 819255031}
   - component: {fileID: 819255029}
-  - component: {fileID: 819255032}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -397,10 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21151b924c31c2c48881021e5c1ef655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optionsmenu: {fileID: 1467492650}
-  square: {fileID: 0}
-  circle: {fileID: 0}
-  tree: {fileID: 0}
+  gameObjectToCreate: {fileID: 1467492650}
+  placementObjects: []
+  activecolour: {r: 1, g: 0, b: 0, a: 1}
+  inactivecolour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  arcamera: {fileID: 0}
 --- !u!114 &819255030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,22 +428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &819255032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819255026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbdc7b73556e2204482e5c403a7f3611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placedObjects: []
-  activeColor: {r: 1, g: 0, b: 0, a: 1}
-  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  arCamera: {fileID: 327076060}
 --- !u!1 &1467492650 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6474464889691583259, guid: 908b6f0ad71997d4da91a1938330f24b,
@@ -755,6 +739,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474464889363604071, guid: 908b6f0ad71997d4da91a1938330f24b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976910727866197193, guid: 908b6f0ad71997d4da91a1938330f24b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -6.0999756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976910727866197193, guid: 908b6f0ad71997d4da91a1938330f24b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10.099976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 908b6f0ad71997d4da91a1938330f24b, type: 3}
