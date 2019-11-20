@@ -7,23 +7,6 @@ using UnityEngine.XR.ARFoundation;
 [RequireComponent(typeof(ARRaycastManager))]
 public class placementControler : MonoBehaviour
 {
-
-<<<<<<< HEAD
-    private GameObject placedPrefab;
-
-    [SerializeField]
-    private GameObject optionsmenu;
-
-    [SerializeField]
-    private Button square;
-
-    [SerializeField]
-    private Button circle;
-
-    [SerializeField]
-    private Button tree;
-
-=======
     [SerializeField]
     private GameObject gameObjectToCreate;
 
@@ -86,6 +69,7 @@ public class placementControler : MonoBehaviour
         return false;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     private void Start()
     {
 
@@ -141,7 +125,6 @@ public class placementControler : MonoBehaviour
                 calledLong = false;
                 newTouch = false;
             }
-=======
 
 
 
@@ -150,13 +133,24 @@ public class placementControler : MonoBehaviour
     {
         if (!TryGetTouchPosition(out Vector2 touchPosition))
             return;
-        if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
-        {
-            var hitPose = hits[0].pose;
-            Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
->>>>>>> parent of 00cee8f... basic surface detection and object place
-        }
-    }
+                if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                {
+                    var hitPose = hits[0].pose;
+                    Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
 
-    
+
+
+                    // Update is called once per frame
+                    void Update()
+                    {
+                        if (!TryGetTouchPosition(out Vector2 touchPosition))
+                            return;
+                        if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                        {
+                            var hitPose = hits[0].pose;
+                            Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
+                        }
+                    }
+
+                }   
 }
