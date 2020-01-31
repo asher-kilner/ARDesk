@@ -7,8 +7,26 @@ using UnityEngine.XR.ARFoundation;
 [RequireComponent(typeof(ARRaycastManager))]
 public class placementControler : MonoBehaviour
 {
-    [SerializeField]
+    
     private GameObject placedPrefab;
+
+    [SerializeField]
+    private Button greenButton;
+
+    [SerializeField]
+    private Button redButton;
+
+    [SerializeField]
+    private Button blueButton;
+
+    [SerializeField]
+    private Button dismissButton;
+
+    [SerializeField]
+    private GameObject optionsPanel;
+
+    [SerializeField]
+    private Text selectionText;
 
     [SerializeField]
     private Camera arCamera;
@@ -25,29 +43,51 @@ public class placementControler : MonoBehaviour
 
     private PlacementObject lastSelectedObject;
 
-    private float touchTime;
-    private float longPress = 1;
-    private GameObject PlacedPrefab
-    {
-        get
-        {
-            return placedPrefab;
-        }
-        set
-        {
-            placedPrefab = value;
-        }
-    }
-
-
     void Awake()
     {
         arRaycastManager = GetComponent<ARRaycastManager>();
+
+        // set initial prefab
+        ChangePrefabTo("Blue");
+        Debug.LogError($"prefab is {placedPrefab}");
+        greenButton.onClick.AddListener(() => ChangePrefabTo("Green"));
+        blueButton.onClick.AddListener(() => ChangePrefabTo("Blue"));
+        redButton.onClick.AddListener(() => ChangePrefabTo("Red"));
+        dismissButton.onClick.AddListener(Dismiss);
+    }
+
+    private void Dismiss() => optionsPanel.SetActive(false);
+
+    void ChangePrefabTo(string prefabName)
+    {
+        placedPrefab = Resources.Load<GameObject>($"Prefabs/{prefabName}");
+
+        if (placedPrefab == null)
+        {
+            Debug.LogError($"Prefab with name {prefabName} could not be loaded, make sure you check the naming of your prefabs...");
+        }
+
+        switch (prefabName)
+        {
+            case "Blue":
+                selectionText.text = $"Selected: <color='blue'>{prefabName}</color>";
+                break;
+            case "Red":
+                selectionText.text = $"Selected: <color='red'>{prefabName}</color>";
+                break;
+            case "Green":
+                selectionText.text = $"Selected: <color='green'>{prefabName}</color>";
+                break;
+        }
+
     }
 
     void Update()
     {
+        if (placedPrefab == null)
+            return;
 
+        Debug.LogError($"prefab is {placedPrefab}");
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -56,7 +96,6 @@ public class placementControler : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
-                touchTime += Time.deltaTime;
                 Ray ray = arCamera.ScreenPointToRay(touch.position);
                 RaycastHit hitObject;
                 if (Physics.Raycast(ray, out hitObject))
@@ -76,7 +115,6 @@ public class placementControler : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 lastSelectedObject.Selected = false;
-                touchTime = 0;
             }
         }
 
