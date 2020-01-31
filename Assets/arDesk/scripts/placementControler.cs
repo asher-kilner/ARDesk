@@ -31,6 +31,9 @@ public class placementControler : MonoBehaviour
     [SerializeField]
     private Camera arCamera;
 
+    [SerializeField]
+    private Button selectSreenButton;
+
     private PlacementObject[] placedObjects;
 
     private Vector2 touchPosition = default;
@@ -49,14 +52,15 @@ public class placementControler : MonoBehaviour
 
         // set initial prefab
         ChangePrefabTo("Blue");
-        Debug.LogError($"prefab is {placedPrefab}");
         greenButton.onClick.AddListener(() => ChangePrefabTo("Green"));
         blueButton.onClick.AddListener(() => ChangePrefabTo("Blue"));
         redButton.onClick.AddListener(() => ChangePrefabTo("Red"));
         dismissButton.onClick.AddListener(Dismiss);
+        selectSreenButton.onClick.AddListener(OpenSelect);
     }
 
     private void Dismiss() => optionsPanel.SetActive(false);
+    private void OpenSelect() => optionsPanel.SetActive(true);
 
     void ChangePrefabTo(string prefabName)
     {
@@ -84,7 +88,7 @@ public class placementControler : MonoBehaviour
 
     void Update()
     {
-        if (placedPrefab == null)
+        if (placedPrefab == null|| optionsPanel.gameObject.activeSelf)
             return;
 
         Debug.LogError($"prefab is {placedPrefab}");
