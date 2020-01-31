@@ -5,5 +5,17 @@ using UnityEngine;
 public class PlacementObject : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool isSelected { get; set; }
+    public bool isSelected;
+
+    public bool Selected
+    {
+        get
+        {
+            return this.isSelected;
+        }
+        set
+        {
+            isSelected = value;
+        }
+    }
 }
