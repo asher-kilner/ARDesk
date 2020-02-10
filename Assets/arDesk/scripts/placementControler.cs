@@ -100,13 +100,16 @@ public class placementControler : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
+                //if you touch the screen
                 Ray ray = arCamera.ScreenPointToRay(touch.position);
                 RaycastHit hitObject;
                 if (Physics.Raycast(ray, out hitObject))
                 {
+                    //if you hit an object
                     lastSelectedObject = hitObject.transform.GetComponent<PlacementObject>();
-                    if (lastSelectedObject != null)
+                    if (lastSelectedObject != null)//if you hit a placement object
                     {
+                        //find the placement object you are clicking on
                         PlacementObject[] allOtherObjects = FindObjectsOfType<PlacementObject>();
                         foreach (PlacementObject placementObject in allOtherObjects)
                         {
@@ -124,16 +127,19 @@ public class placementControler : MonoBehaviour
 
         if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
         {
+            //when you press down on the screen
             Pose hitPose = hits[0].pose;
 
             if (lastSelectedObject == null)
             {
+                //if no selected object has been registered then put one down
                 lastSelectedObject = Instantiate(placedPrefab, hitPose.position, hitPose.rotation).GetComponent<PlacementObject>();
             }
             else
             {
                 if (lastSelectedObject.Selected)
                 {
+                    // if obect has been clicked on move its position
                     lastSelectedObject.transform.position = hitPose.position;
                     lastSelectedObject.transform.rotation = hitPose.rotation;
                 }
