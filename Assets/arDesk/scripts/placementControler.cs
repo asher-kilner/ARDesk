@@ -34,13 +34,19 @@ public class placementControler : MonoBehaviour
     [SerializeField]
     private Button selectSreenButton;
 
+    [SerializeField]
+    private Color activeColor = Color.red;
+
+    [SerializeField]
+    private Color inactiveColor = Color.gray;
+
     private PlacementObject[] placedObjects;
 
     private Vector2 touchPosition = default;
 
     private ARRaycastManager arRaycastManager;
 
-    private bool onTouchHold = false;
+    //private bool onTouchHold = false;
 
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
@@ -51,10 +57,10 @@ public class placementControler : MonoBehaviour
         arRaycastManager = GetComponent<ARRaycastManager>();
 
         // set initial prefab
-        ChangePrefabTo("Blue");
-        greenButton.onClick.AddListener(() => ChangePrefabTo("Green"));
-        blueButton.onClick.AddListener(() => ChangePrefabTo("Blue"));
-        redButton.onClick.AddListener(() => ChangePrefabTo("Red"));
+        ChangePrefabTo("cube");
+        greenButton.onClick.AddListener(() => ChangePrefabTo("sphere"));
+        blueButton.onClick.AddListener(() => ChangePrefabTo("cube"));
+        redButton.onClick.AddListener(() => ChangePrefabTo("capsule"));
         dismissButton.onClick.AddListener(Dismiss);
         selectSreenButton.onClick.AddListener(OpenSelect);
     }
@@ -73,13 +79,13 @@ public class placementControler : MonoBehaviour
 
         switch (prefabName)
         {
-            case "Blue":
-                selectionText.text = $"Selected: <color='blue'>{prefabName}</color>";
+            case "cube":
+                selectionText.text = $"Selected: <color='green'>{prefabName}</color>";
                 break;
-            case "Red":
-                selectionText.text = $"Selected: <color='red'>{prefabName}</color>";
+            case "sphere":
+                selectionText.text = $"Selected: <color='green'>{prefabName}</color>";
                 break;
-            case "Green":
+            case "capsule":
                 selectionText.text = $"Selected: <color='green'>{prefabName}</color>";
                 break;
         }
@@ -91,7 +97,7 @@ public class placementControler : MonoBehaviour
         if (placedPrefab == null|| optionsPanel.gameObject.activeSelf)
             return;
 
-        Debug.LogError($"prefab is {placedPrefab}");
+        
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -100,6 +106,7 @@ public class placementControler : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
+                Debug.LogError($"TOUCHING DOWN");
                 //if you touch the screen
                 Ray ray = arCamera.ScreenPointToRay(touch.position);
                 RaycastHit hitObject;
@@ -113,14 +120,18 @@ public class placementControler : MonoBehaviour
                         PlacementObject[] allOtherObjects = FindObjectsOfType<PlacementObject>();
                         foreach (PlacementObject placementObject in allOtherObjects)
                         {
+                            //if the position of the object is the same as what youre clicking on then that is the objct
                             placementObject.Selected = placementObject == lastSelectedObject;
                         }
+                        
+                        ChangeSelectedObject(lastSelectedObject);
                     }
                 }
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
+                Debug.LogError($"TOUCHING released");
                 lastSelectedObject.Selected = false;
             }
         }
@@ -129,7 +140,7 @@ public class placementControler : MonoBehaviour
         {
             //when you press down on the screen
             Pose hitPose = hits[0].pose;
-
+            
             if (lastSelectedObject == null)
             {
                 //if no selected object has been registered then put one down
@@ -144,6 +155,29 @@ public class placementControler : MonoBehaviour
                     lastSelectedObject.transform.rotation = hitPose.rotation;
                 }
             }
+        }
+    }
+void ChangeSelectedObject(PlacementObject selected)
+    {
+        Debug.LogError($"changing colour of obects");
+        PlacementObject[] allOtherObjects = FindObjectsOfType<PlacementObject>();
+        foreach (PlacementObject current in allOtherObjects)
+        {   
+            Debug.LogError($"current is {current}");
+            MeshRenderer meshRenderer = current.GetComponent<MeshRenderer>();
+            meshRenderer.enabled = true;
+            Debug.LogError($"mesh renderer{meshRenderer}");
+            if(selected != current) 
+            {
+                current.Selected = false;
+                meshRenderer.material.color = inactiveColor;
+            }
+            else 
+            {
+                current.Selected = true;
+                meshRenderer.material.color = activeColor;  
+            }
+            
         }
     }
 }
