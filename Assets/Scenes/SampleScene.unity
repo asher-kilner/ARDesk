@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 230636598}
   - component: {fileID: 230636597}
   m_Layer: 5
-  m_Name: DismissButton
+  m_Name: PlaceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -639,7 +639,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 8.27e-43, y: 1.0251451e+17, z: 8.27e-43, w: 1.0251455e+17}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -714,17 +714,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 819255026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21151b924c31c2c48881021e5c1ef655, type: 3}
+  m_Script: {fileID: 11500000, guid: d58f3978698c8e149ba8327cc29f5dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  greenButton: {fileID: 1074590109}
-  redButton: {fileID: 1735303929}
-  blueButton: {fileID: 2100813567}
-  dismissButton: {fileID: 230636597}
+  placeButton: {fileID: 230636597}
   optionsPanel: {fileID: 1173501654}
-  selectionText: {fileID: 577059402}
+  startPanel: {fileID: 0}
   arCamera: {fileID: 327076060}
-  selectSreenButton: {fileID: 203708245}
+  openButton: {fileID: 203708245}
+  dismissButton: {fileID: 230636597}
   activeColor: {r: 1, g: 0, b: 0, a: 1}
   inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &819255030
