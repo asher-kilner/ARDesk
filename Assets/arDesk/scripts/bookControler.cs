@@ -47,7 +47,7 @@ public class bookControler : MonoBehaviour
         openButton.onClick.AddListener(OpenSelect);
     }
 
-    private void Dismiss() => optionsPanel.SetActive(false);
+    private void Dismiss() => optionsPanel.SetActive    (false);
     private void OpenSelect() => optionsPanel.SetActive(true);
 
     void Update()
