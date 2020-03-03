@@ -7,8 +7,8 @@ using UnityEngine.XR.ARFoundation;
 [RequireComponent(typeof(ARRaycastManager))]
 public class bookControler : MonoBehaviour
 {
-    
-    private GameObject placedPrefab;
+    [SerializeField]
+    private PlacementObject placedPrefab;
 
     [SerializeField]
     private Button placeButton;
@@ -55,7 +55,7 @@ public class bookControler : MonoBehaviour
         if (placedPrefab == null|| optionsPanel.gameObject.activeSelf)
             return;
 
-        
+         Debug.LogError($"update");
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -69,11 +69,17 @@ public class bookControler : MonoBehaviour
             }
             if (touch.phase == TouchPhase.Began)
             {
+                if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                {
+                    //when you press down on the screen
+                    Pose hitPose = hits[0].pose;
+                    Instantiate(placedPrefab, hitPose.position, hitPose.rotation).GetComponent<PlacementObject>();
+                }
                 Debug.LogError($"TOUCHING DOWN");
                 //if you touch the screen
-                // Ray ray = arCamera.ScreenPointToRay(touch.position);
-                // RaycastHit hitObject;
-                // if (Physics.Raycast(ray, out hitObject))
+                Ray ray = arCamera.ScreenPointToRay(touch.position);
+                //RaycastHit hitObject;
+                //if (Physics.Raycast(ray, out hitObject))
                 // {
                 //     //if you hit an object
                 //     lastSelectedObject = hitObject.transform.GetComponent<PlacementObject>();
