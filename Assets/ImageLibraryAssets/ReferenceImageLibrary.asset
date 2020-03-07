@@ -23,5 +23,25 @@ MonoBehaviour:
       m_GuidHigh: 16708276515616057016
     m_Size: {x: 0.1, y: 0.15016858}
     m_SpecifySize: 1
-    m_Name: IMG_20200221_110717
+    m_Name: Blue
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5112005011283218720
+      m_GuidHigh: 10028525205641123237
+    m_SerializedTextureGuid:
+      m_GuidLow: 12985128888868353875
+      m_GuidHigh: 4787796787610605818
+    m_Size: {x: 0.1, y: 0.14839417}
+    m_SpecifySize: 1
+    m_Name: Green
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5356122324057608734
+      m_GuidHigh: 4112707765259677370
+    m_SerializedTextureGuid:
+      m_GuidLow: 555075694715382672
+      m_GuidHigh: 8356412903139720010
+    m_Size: {x: 0.1, y: 0.1485139}
+    m_SpecifySize: 1
+    m_Name: Red
     m_Texture: {fileID: 0}
