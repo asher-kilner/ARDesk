@@ -10,16 +10,16 @@ public class bookController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //move all pages to the right
-        foreach (PageObject page in pages)
-        {
-            if(page.isTurned)
-            {
-                turnPage("next");
-            }
+        // //move all pages to the right
+        // foreach (PageObject page in pages)
+        // {
+        //     if(page.isTurned)
+        //     {
+        //         turnPage("next");
+        //     }
             
-        }
-        currentPage = pages[0];
+        // }
+        // currentPage = pages[0];
     }
 
     // Update is called once per frame
