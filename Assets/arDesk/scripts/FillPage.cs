@@ -1,14 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class FillPage : MonoBehaviour
 {
-    public GameObject text;
+    public TMP_InputField text;
     public string username = "asher";
+    private BookCollection bookCollection;
+    public string[] books;
     
-    string GetPostByIdURL = "http://localhost/augmented_desk/bookByUser.php";
+    string GetPostURL = "http://localhost/augmented_desk/book.php";
     void Start()
     {
         StartCoroutine(GetText());
@@ -18,17 +21,23 @@ public class FillPage : MonoBehaviour
 
         WWWForm form = new WWWForm();
         form.AddField("usernamePost", username);
-        UnityWebRequest www = UnityWebRequest.Post(GetPostByIdURL, form);
+        UnityWebRequest www = UnityWebRequest.Get(GetPostURL);
         yield return www.SendWebRequest();
-        
         
         if(www.isNetworkError || www.isHttpError) {
             Debug.Log(www.error);
         }
         else{
-            var bookString = www.downloadHandler.text;
-            print(bookString);
-            
+            string jsonData = @www.downloadHandler.text;
+            bookCollection = JsonUtility.FromJson<BookCollection>(jsonData);
+            foreach(Book book in bookCollection.books)
+            {
+                if(book.username == username){
+                    text.text = book.body;
+                }
+            }
+
         }        
     }
+
 }
