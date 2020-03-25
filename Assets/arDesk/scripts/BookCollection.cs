@@ -3,5 +3,7 @@ using System;
 [Serializable]
 public class BookCollection
 {
-    public Book[] books;
+    public string id { get; set; }
+    public string username { get; set; }
+    public string body { get; set; }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,9 +9,9 @@ using UnityEngine.Networking;
 public class FillPage : MonoBehaviour
 {
     public TMP_InputField text;
-    public string username = "asher";
+    public string username;
     private BookCollection bookCollection;
-    public string[] books;
+    private string[] books;
     
     string GetPostURL = "http://localhost/augmented_desk/book.php";
     void Start()
@@ -28,15 +30,14 @@ public class FillPage : MonoBehaviour
             Debug.Log(www.error);
         }
         else{
-            string jsonData = @www.downloadHandler.text;
-            bookCollection = JsonUtility.FromJson<BookCollection>(jsonData);
-            foreach(Book book in bookCollection.books)
-            {
+            var JsonCollection = www.downloadHandler.text;
+            var books = JsonConvert.DeserializeObject<List<BookCollection>>(www.downloadHandler.text);
+            foreach(var book in books){
                 if(book.username == username){
                     text.text = book.body;
                 }
             }
-
+            print(books[0].username);
         }        
     }
 
