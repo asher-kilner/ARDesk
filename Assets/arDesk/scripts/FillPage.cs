@@ -20,9 +20,6 @@ public class FillPage : MonoBehaviour
     }
 
     IEnumerator GetText() {
-
-        WWWForm form = new WWWForm();
-        form.AddField("usernamePost", username);
         UnityWebRequest www = UnityWebRequest.Get(GetPostURL);
         yield return www.SendWebRequest();
         
@@ -36,6 +33,9 @@ public class FillPage : MonoBehaviour
                 if(book.username == username){
                     text.text = book.body;
                 }
+            }
+            if(books == null){
+                text.text = "[connection could not be made]";
             }
             print(books[0].username);
         }        
