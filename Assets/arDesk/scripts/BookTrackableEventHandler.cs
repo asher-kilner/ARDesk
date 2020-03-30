@@ -32,6 +32,8 @@ public class BookTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
 
     #region UNITY_MONOBEHAVIOUR_METHODS
     public TextMeshProUGUI text;
+
+    public Text db;
     public string username;
 
     protected virtual void Start()
@@ -145,7 +147,7 @@ public class BookTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
     IEnumerator SaveText()
     {
         print("saving content");
-        string PostURL = "http://localhost/augmented_desk/updateBook.php";
+        string PostURL = "http://192.168.0.98/augmented_desk/updateBook.php";
         WWWForm form = new WWWForm();
         print(text.text);
         print(username);
