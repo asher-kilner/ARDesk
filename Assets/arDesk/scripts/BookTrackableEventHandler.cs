@@ -31,15 +31,11 @@ public class BookTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
     #endregion // PROTECTED_MEMBER_VARIABLES
 
     #region UNITY_MONOBEHAVIOUR_METHODS
-    public TextMeshProUGUI text;
-
-    public Text db;
-    public string username;
+    public TMP_InputField notepad;
 
     protected virtual void Start()
     {
         //text = GetComponent<TMP_InputField>();
-        print(text.GetType());
         mTrackableBehaviour = GetComponent<TrackableBehaviour>();
         if (mTrackableBehaviour)
             mTrackableBehaviour.RegisterTrackableEventHandler(this);
@@ -120,7 +116,7 @@ public class BookTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
     protected virtual void OnTrackingLost()
     {
         //save data into database
-        StartCoroutine(SaveText());
+        StartCoroutine(Savenotebook());
 
         
 
@@ -144,23 +140,20 @@ public class BookTrackableEventHandler : MonoBehaviour, ITrackableEventHandler
         }
     }
 
-    IEnumerator SaveText()
+    IEnumerator Savenotebook()
     {
-        print("saving content");
-        string PostURL = "http://192.168.0.98/augmented_desk/updateBook.php";
         WWWForm form = new WWWForm();
-        print(text.text);
-        print(username);
-        form.AddField("username", username);
-        form.AddField("body", text.text);
+        form.AddField("id", DbManager.id);
+        form.AddField("content", notepad.text); 
+        string PostURL = "http://localhost/augmented_desk/update_notes.php";
         UnityWebRequest www = UnityWebRequest.Post(PostURL,form);
         yield return www.SendWebRequest();
-        
-        if(www.isNetworkError || www.isHttpError) {
-            Debug.Log(www.error);
+        if(www.downloadHandler.text == "0"){
+            print("notes saved successfully");
         }
-        print("successfuly saved");
-           
+        else{
+            print("error: " + www.downloadHandler.text);
+        }
     }
 
     #endregion // PROTECTED_METHODS

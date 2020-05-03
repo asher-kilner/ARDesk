@@ -9,36 +9,31 @@ using UnityEngine.UI;
 
 public class FillPage : MonoBehaviour
 {
-    public TMP_InputField text;
-    public Text db;
-    public string username;
-    private BookCollection bookCollection;
+    public TMP_InputField notepad;
     void Start()
     {
         StartCoroutine(GetText());
     }
+    
 
     IEnumerator GetText() {
-        UnityWebRequest www = UnityWebRequest.Get("http://192.168.0.98/augmented_desk/book.php");
-        yield return www.SendWebRequest();
+
+        yield return new WaitUntil(() => DbManager.loggedIn == true);
         
-        if(www.isNetworkError || www.isHttpError || www == null) {
-            Debug.Log(www.error);
+        WWWForm form = new WWWForm();
+        form.AddField("id", DbManager.id);
+        string PostURL = "http://localhost/augmented_desk/retrieve_notes.php";
+        UnityWebRequest www = UnityWebRequest.Post(PostURL,form);
+        yield return www.SendWebRequest();
+        if(www.downloadHandler.text[0] == '0'){
+            print("notes loaded");
+            notepad.text = www.downloadHandler.text.Split('\t')[1];
+        } else if(www.downloadHandler.text[0] == '7'){
+            print("no current book");
+            notepad.text = "{create notes here}";
+        } else {
+            print("user log in failed: " +  www.downloadHandler.text);
         }
-        else{
-            var JsonCollection = www.downloadHandler.text;
-            var books = JsonConvert.DeserializeObject<List<BookCollection>>(www.downloadHandler.text);
-            foreach(var book in books){
-                if(book.username == username){
-                    text.text = book.body;
-                    print(book.body);
-                }
-            }
-            if(books == null){
-                text.text = "[connection could not be made]";
-            }
-            print(books[0].username);
-        }        
     }
 
 }
